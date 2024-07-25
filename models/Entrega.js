@@ -1,17 +1,14 @@
+// models/Entrega.js
 import mongoose from "mongoose";
 
 const EntregaSchema = new mongoose.Schema({
-  endereco: {
-    type: String,
-    required: [true, "Endereço é obrigatório"],
-  },
   dataEntrega: {
     type: Date,
-    required: [true, "Data de entrega é obrigatória"],
+    required: [true, "Data da entrega é obrigatória"],
   },
   status: {
     type: String,
-    required: [true, "Status é obrigatório"],
+    required: [true, "Status da entrega é obrigatório"],
   },
   motorista: {
     type: mongoose.Schema.Types.ObjectId,

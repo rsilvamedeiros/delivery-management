@@ -1,3 +1,4 @@
+// models/Motorista.js
 import mongoose from "mongoose";
 
 const MotoristaSchema = new mongoose.Schema({

@@ -1,3 +1,4 @@
+// pages/api/motoristas/[id].js
 import connectToDatabase from "../../../utils/db";
 import Motorista from "../../../models/Motorista";
 
@@ -23,7 +24,10 @@ export default async function handler(req, res) {
         const updatedMotorista = await Motorista.findByIdAndUpdate(
           id,
           req.body,
-          { new: true, runValidators: true }
+          {
+            new: true,
+            runValidators: true,
+          }
         );
         if (!updatedMotorista) {
           return res

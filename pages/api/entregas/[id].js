@@ -1,73 +1,56 @@
+// pages/api/entregas/index.js
 import connectToDatabase from "../../../utils/db";
 import Entrega from "../../../models/Entrega";
+import Motorista from "../../../models/Motorista";
+import Veiculo from "../../../models/Veiculo";
 
 export default async function handler(req, res) {
   const { method } = req;
-  const { id } = req.query;
-
-  console.log(`Método da requisição: ${method}`);
-  console.log(`ID da entrega: ${id}`);
 
   try {
     await connectToDatabase();
-    console.log("Conectado ao banco de dados com sucesso.");
 
     switch (method) {
       case "GET":
-        console.log("Requisitando entrega...");
-        const entrega = await Entrega.findById(id)
+        const entregas = await Entrega.find({})
           .populate("motorista")
           .populate("veiculo");
-        if (!entrega) {
-          console.log("Entrega não encontrada.");
-          return res
-            .status(404)
-            .json({ success: false, message: "Entrega não encontrada" });
-        }
-        console.log("Entrega encontrada:", entrega);
-        res.status(200).json({ success: true, data: entrega });
+        res.status(200).json({ success: true, data: entregas });
         break;
 
-      case "PUT":
-        console.log("Atualizando entrega...");
-        const updatedEntrega = await Entrega.findByIdAndUpdate(id, req.body, {
-          new: true,
-          runValidators: true,
+      case "POST":
+        const { motorista, veiculo, ...entregaData } = req.body;
+
+        const motoristaDoc = await Motorista.findOne({ nome: motorista });
+        if (!motoristaDoc) {
+          return res
+            .status(400)
+            .json({ success: false, message: "Motorista não encontrado" });
+        }
+
+        const veiculoDoc = await Veiculo.findOne({ modelo: veiculo });
+        if (!veiculoDoc) {
+          return res
+            .status(400)
+            .json({ success: false, message: "Veículo não encontrado" });
+        }
+
+        const novaEntrega = await Entrega.create({
+          ...entregaData,
+          motorista: motoristaDoc._id,
+          veiculo: veiculoDoc._id,
         });
-        if (!updatedEntrega) {
-          console.log("Entrega não encontrada para atualização.");
-          return res
-            .status(404)
-            .json({ success: false, message: "Entrega não encontrada" });
-        }
-        console.log("Entrega atualizada com sucesso:", updatedEntrega);
-        res.status(200).json({ success: true, data: updatedEntrega });
-        break;
 
-      case "DELETE":
-        console.log("Deletando entrega...");
-        const deletedEntrega = await Entrega.findByIdAndDelete(id);
-        if (!deletedEntrega) {
-          console.log("Entrega não encontrada para exclusão.");
-          return res
-            .status(404)
-            .json({ success: false, message: "Entrega não encontrada" });
-        }
-        console.log("Entrega deletada com sucesso:", deletedEntrega);
-        res
-          .status(200)
-          .json({ success: true, message: "Entrega deletada com sucesso" });
+        res.status(201).json({ success: true, data: novaEntrega });
         break;
 
       default:
-        console.log(`Método ${method} não suportado.`);
         res
           .status(400)
           .json({ success: false, message: "Método não suportado" });
         break;
     }
   } catch (error) {
-    console.error("Erro ao processar a requisição:", error.message);
     res
       .status(500)
       .json({ success: false, message: "Erro interno do servidor" });

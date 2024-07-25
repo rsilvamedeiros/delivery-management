@@ -1,3 +1,4 @@
+// pages/entregas/[id].js
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
@@ -10,40 +11,55 @@ export default function Entrega() {
     motorista: "",
     veiculo: "",
   });
-  const [isEditing, setIsEditing] = useState(false);
+  const [motoristas, setMotoristas] = useState([]);
+  const [veiculos, setVeiculos] = useState([]);
 
   const router = useRouter();
   const { id } = router.query;
 
   useEffect(() => {
-    if (id) {
-      async function fetchEntrega() {
-        try {
-          const response = await axios.get(`/api/entregas/${id}`);
-          const entrega = response.data.data;
+    async function fetchEntrega() {
+      try {
+        const response = await axios.get(`/api/entregas/${id}`);
+        const entrega = response.data.data;
 
-          // Verificar se a entrega foi encontrada e formatar os dados
-          if (entrega) {
-            const formattedDate = new Date(entrega.dataEntrega)
-              .toISOString()
-              .split("T")[0];
-
-            setForm({
-              endereco: entrega.endereco,
-              dataEntrega: formattedDate,
-              status: entrega.status,
-              motorista: entrega.motorista ? entrega.motorista.nome : "",
-              veiculo: entrega.veiculo ? entrega.veiculo.modelo : "",
-            });
-          } else {
-            console.error("Entrega não encontrada.");
-          }
-        } catch (error) {
-          console.error("Erro ao buscar entrega:", error);
-        }
+        setForm({
+          endereco: entrega.endereco,
+          dataEntrega: new Date(entrega.dataEntrega)
+            .toISOString()
+            .split("T")[0],
+          status: entrega.status,
+          motorista: entrega.motorista._id,
+          veiculo: entrega.veiculo._id,
+        });
+      } catch (error) {
+        console.error("Erro ao buscar entrega:", error);
       }
+    }
+
+    async function fetchMotoristas() {
+      try {
+        const response = await axios.get("/api/motoristas");
+        setMotoristas(response.data.data);
+      } catch (error) {
+        console.error("Erro ao buscar motoristas:", error);
+      }
+    }
+
+    async function fetchVeiculos() {
+      try {
+        const response = await axios.get("/api/veiculos");
+        setVeiculos(response.data.data);
+      } catch (error) {
+        console.error("Erro ao buscar veículos:", error);
+      }
+    }
+
+    if (id) {
       fetchEntrega();
     }
+    fetchMotoristas();
+    fetchVeiculos();
   }, [id]);
 
   const handleChange = (e) => {
@@ -64,75 +80,65 @@ export default function Entrega() {
     }
   };
 
-  const handleEditToggle = () => {
-    setIsEditing(!isEditing);
-  };
-
   return (
     <div>
-      <h1>{isEditing ? "Editar Entrega" : "Visualizar Entrega"}</h1>
-      {isEditing ? (
-        <form onSubmit={handleSubmit}>
+      <h1>Editar Entrega</h1>
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label>Endereço</label>
           <input
             type="text"
             name="endereco"
-            placeholder="Endereço"
             value={form.endereco}
             onChange={handleChange}
           />
+        </div>
+        <div>
+          <label>Data de Entrega</label>
           <input
             type="date"
             name="dataEntrega"
-            placeholder="Data de Entrega"
             value={form.dataEntrega}
             onChange={handleChange}
           />
+        </div>
+        <div>
+          <label>Status</label>
           <input
             type="text"
             name="status"
-            placeholder="Status"
             value={form.status}
             onChange={handleChange}
           />
-          <input
-            type="text"
+        </div>
+        <div>
+          <label>Motorista</label>
+          <select
             name="motorista"
-            placeholder="Motorista"
             value={form.motorista}
             onChange={handleChange}
-          />
-          <input
-            type="text"
-            name="veiculo"
-            placeholder="Veículo"
-            value={form.veiculo}
-            onChange={handleChange}
-          />
-          <button type="submit">Salvar Alterações</button>
-          <button type="button" onClick={handleEditToggle}>
-            Cancelar
-          </button>
-        </form>
-      ) : (
-        <div>
-          <p>
-            <strong>Endereço:</strong> {form.endereco}
-          </p>
-          <p>
-            <strong>Data de Entrega:</strong> {form.dataEntrega}
-          </p>
-          <p>
-            <strong>Status:</strong> {form.status}
-          </p>
-          <p>
-            <strong>Motorista:</strong> {form.motorista}
-          </p>
-          <p>
-            <strong>Veículo:</strong> {form.veiculo}
-          </p>
-          <button onClick={handleEditToggle}>Editar</button>
+          >
+            <option value="">Selecione um motorista</option>
+            {motoristas.map((motorista) => (
+              <option key={motorista._id} value={motorista._id}>
+                {motorista.nome}
+              </option>
+            ))}
+          </select>
         </div>
-      )}
+        <div>
+          <label>Veículo</label>
+          <select name="veiculo" value={form.veiculo} onChange={handleChange}>
+            <option value="">Selecione um veículo</option>
+            {veiculos.map((veiculo) => (
+              <option key={veiculo._id} value={veiculo._id}>
+                {veiculo.modelo}
+              </option>
+            ))}
+          </select>
+        </div>
+        <button type="submit">Salvar</button>
+      </form>
     </div>
   );
 }

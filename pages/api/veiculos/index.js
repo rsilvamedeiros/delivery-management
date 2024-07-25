@@ -1,6 +1,6 @@
-// pages/api/motoristas/index.js
+// pages/api/veiculos/index.js
 import connectToDatabase from "../../../utils/db";
-import Motorista from "../../../models/Motorista";
+import Veiculo from "../../../models/Veiculo";
 
 export default async function handler(req, res) {
   const { method } = req;
@@ -10,13 +10,15 @@ export default async function handler(req, res) {
 
     switch (method) {
       case "GET":
-        const motoristas = await Motorista.find({});
-        res.status(200).json({ success: true, data: motoristas });
+        const veiculos = await Veiculo.find({})
+          .populate("marca")
+          .populate("valorFIPE");
+        res.status(200).json({ success: true, data: veiculos });
         break;
 
       case "POST":
-        const motorista = await Motorista.create(req.body);
-        res.status(201).json({ success: true, data: motorista });
+        const veiculo = await Veiculo.create(req.body);
+        res.status(201).json({ success: true, data: veiculo });
         break;
 
       default:
