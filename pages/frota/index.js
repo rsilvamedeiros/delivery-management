@@ -1,24 +1,24 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-const FrotaPage = () => {
-  const [frota, setFrota] = useState([]);
+const MotoristasPage = () => {
+  const [motoristas, setMotoristas] = useState([]);
 
   useEffect(() => {
-    const fetchFrota = async () => {
-      const response = await axios.get("/api/frota");
-      setFrota(response.data.data);
+    const fetchMotoristas = async () => {
+      const response = await axios.get("/api/motoristas");
+      setMotoristas(response.data.data);
     };
-    fetchFrota();
+    fetchMotoristas();
   }, []);
 
   return (
     <div>
-      <h1>Frota</h1>
+      <h1>Motoristas</h1>
       <ul>
-        {frota.map((veiculo) => (
-          <li key={veiculo._id}>
-            {veiculo.placa} - {veiculo.marca} {veiculo.modelo} ({veiculo.ano})
+        {motoristas.map((motorista) => (
+          <li key={motorista._id}>
+            {motorista.nome} - CNH: {motorista.cnh}
           </li>
         ))}
       </ul>
@@ -26,4 +26,4 @@ const FrotaPage = () => {
   );
 };
 
-export default FrotaPage;
+export default MotoristasPage;
