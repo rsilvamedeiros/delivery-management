@@ -15,7 +15,9 @@ export default async function handler(req, res) {
     switch (method) {
       case "GET":
         console.log("Requisitando entrega...");
-        const entrega = await Entrega.findById(id);
+        const entrega = await Entrega.findById(id)
+          .populate("motorista")
+          .populate("veiculo");
         if (!entrega) {
           console.log("Entrega não encontrada.");
           return res

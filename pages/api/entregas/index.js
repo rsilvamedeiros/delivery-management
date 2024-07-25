@@ -12,7 +12,9 @@ export default async function handler(req, res) {
     switch (method) {
       case "GET":
         console.log("Requisitando todas as entregas...");
-        const entregas = await Entrega.find({});
+        const entregas = await Entrega.find({})
+          .populate("motorista")
+          .populate("veiculo");
         console.log(`Número de entregas encontradas: ${entregas.length}`);
         res.status(200).json({ success: true, data: entregas });
         break;
