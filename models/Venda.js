@@ -17,6 +17,10 @@ const VendaSchema = new mongoose.Schema({
     type: Date,
     required: [true, "Data da venda é obrigatória"],
   },
+  cliente: {
+    type: String,
+    required: [true, "Cliente é obrigatório"],
+  },
 });
 
 export default mongoose.models.Venda || mongoose.model("Venda", VendaSchema);

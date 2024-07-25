@@ -10,15 +10,22 @@ export default function Venda() {
     dataVenda: "",
     cliente: "",
   });
-
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const router = useRouter();
   const { id } = router.query;
 
   useEffect(() => {
     if (id) {
       async function fetchVenda() {
-        const response = await axios.get(`/api/vendas/${id}`);
-        setForm(response.data.data);
+        try {
+          const response = await axios.get(`/api/vendas/${id}`);
+          setForm(response.data.data);
+        } catch (err) {
+          setError(err.response?.data?.message || "Erro ao carregar a venda");
+        } finally {
+          setLoading(false);
+        }
       }
       fetchVenda();
     }
@@ -38,9 +45,13 @@ export default function Venda() {
       await axios.put(`/api/vendas/${id}`, form);
       router.push("/vendas");
     } catch (error) {
-      console.error(error);
+      console.error("Erro ao atualizar a venda:", error);
+      setError("Erro ao atualizar a venda. Tente novamente.");
     }
   };
+
+  if (loading) return <p>Carregando...</p>;
+  if (error) return <p>{error}</p>;
 
   return (
     <div>

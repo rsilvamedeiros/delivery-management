@@ -4,14 +4,25 @@ import Link from "next/link";
 
 export default function Vendas() {
   const [vendas, setVendas] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     async function fetchVendas() {
-      const response = await axios.get("/api/vendas");
-      setVendas(response.data.data);
+      try {
+        const response = await axios.get("/api/vendas");
+        setVendas(response.data.data);
+      } catch (err) {
+        setError(err.response?.data?.message || "Erro ao carregar as vendas");
+      } finally {
+        setLoading(false);
+      }
     }
     fetchVendas();
   }, []);
+
+  if (loading) return <p>Carregando...</p>;
+  if (error) return <p>{error}</p>;
 
   return (
     <div>

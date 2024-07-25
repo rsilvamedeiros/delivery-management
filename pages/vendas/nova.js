@@ -10,7 +10,7 @@ export default function NovaVenda() {
     dataVenda: "",
     cliente: "",
   });
-
+  const [error, setError] = useState(null);
   const router = useRouter();
 
   const handleChange = (e) => {
@@ -27,7 +27,8 @@ export default function NovaVenda() {
       await axios.post("/api/vendas", form);
       router.push("/vendas");
     } catch (error) {
-      console.error(error);
+      console.error("Erro ao criar a venda:", error);
+      setError("Erro ao criar a venda. Tente novamente.");
     }
   };
 
@@ -72,6 +73,7 @@ export default function NovaVenda() {
         />
         <button type="submit">Adicionar Venda</button>
       </form>
+      {error && <p>{error}</p>}
     </div>
   );
 }
