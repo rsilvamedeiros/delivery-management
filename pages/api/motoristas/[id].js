@@ -7,13 +7,15 @@ export default async function handler(req, res) {
 
   try {
     await connectToDatabase();
+
     switch (method) {
       case "GET":
         const motorista = await Motorista.findById(id);
-        if (!motorista)
+        if (!motorista) {
           return res
             .status(404)
             .json({ success: false, message: "Motorista não encontrado" });
+        }
         res.status(200).json({ success: true, data: motorista });
         break;
 
@@ -21,29 +23,32 @@ export default async function handler(req, res) {
         const updatedMotorista = await Motorista.findByIdAndUpdate(
           id,
           req.body,
-          { new: true }
+          { new: true, runValidators: true }
         );
-        if (!updatedMotorista)
+        if (!updatedMotorista) {
           return res
             .status(404)
             .json({ success: false, message: "Motorista não encontrado" });
+        }
         res.status(200).json({ success: true, data: updatedMotorista });
         break;
 
       case "DELETE":
         const deletedMotorista = await Motorista.findByIdAndDelete(id);
-        if (!deletedMotorista)
+        if (!deletedMotorista) {
           return res
             .status(404)
             .json({ success: false, message: "Motorista não encontrado" });
+        }
         res
           .status(200)
           .json({ success: true, message: "Motorista deletado com sucesso" });
         break;
 
       default:
-        res.setHeader("Allow", ["GET", "PUT", "DELETE"]);
-        res.status(405).end(`Método ${method} não permitido`);
+        res
+          .status(400)
+          .json({ success: false, message: "Método não suportado" });
         break;
     }
   } catch (error) {
