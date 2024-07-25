@@ -38,3 +38,14 @@ db.createUser({
 
 MONGO_URI=mongodb://superadmin:teste123@localhost:27017/deliveryManagement?authSource=admin
 
+Abra o mongosh:
+mongosh
+
+Conecte-se ao seu banco de dados:
+use deliveryManagement
+
+Liste as collections disponíveis:
+show collections
+
+Consulte os documentos na collection deliveries:
+db.deliveries.find().pretty()

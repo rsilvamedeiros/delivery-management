@@ -1,3 +1,4 @@
+// models/Entrega.js
 import mongoose from "mongoose";
 
 const EntregaSchema = new mongoose.Schema({
@@ -14,11 +15,13 @@ const EntregaSchema = new mongoose.Schema({
     required: [true, "Status é obrigatório"],
   },
   motorista: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Motorista",
     required: [true, "Motorista é obrigatório"],
   },
   veiculo: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Veiculo",
     required: [true, "Veículo é obrigatório"],
   },
 });

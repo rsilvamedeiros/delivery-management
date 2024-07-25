@@ -1,3 +1,4 @@
+// models/Venda.js
 import mongoose from "mongoose";
 
 const VendaSchema = new mongoose.Schema({
