@@ -1,4 +1,3 @@
-// models/Motorista.js
 import mongoose from "mongoose";
 
 const MotoristaSchema = new mongoose.Schema({
@@ -9,6 +8,15 @@ const MotoristaSchema = new mongoose.Schema({
   cnh: {
     type: String,
     required: [true, "CNH do motorista é obrigatória"],
+    unique: true,
+  },
+  telefone: {
+    type: String,
+    required: [true, "Telefone do motorista é obrigatório"],
+  },
+  endereco: {
+    type: String,
+    required: [true, "Endereço do motorista é obrigatório"],
   },
 });
 

@@ -1,4 +1,3 @@
-// models/Marca.js
 import mongoose from "mongoose";
 
 const MarcaSchema = new mongoose.Schema({
