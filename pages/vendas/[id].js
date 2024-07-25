@@ -20,7 +20,20 @@ export default function Venda() {
       async function fetchVenda() {
         try {
           const response = await axios.get(`/api/vendas/${id}`);
-          setForm(response.data.data);
+          const venda = response.data.data;
+
+          // Formatar a data no formato YYYY-MM-DD
+          const formattedDate = new Date(venda.dataVenda)
+            .toISOString()
+            .split("T")[0];
+
+          setForm({
+            produto: venda.produto,
+            quantidade: venda.quantidade,
+            valor: venda.valor,
+            dataVenda: formattedDate,
+            cliente: venda.cliente,
+          });
         } catch (err) {
           setError(err.response?.data?.message || "Erro ao carregar a venda");
         } finally {

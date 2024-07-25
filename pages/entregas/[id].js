@@ -17,8 +17,25 @@ export default function Entrega() {
   useEffect(() => {
     if (id) {
       async function fetchEntrega() {
-        const response = await axios.get(`/api/entregas/${id}`);
-        setForm(response.data.data);
+        try {
+          const response = await axios.get(`/api/entregas/${id}`);
+          const entrega = response.data.data;
+
+          // Formatar a data no formato YYYY-MM-DD
+          const formattedDate = new Date(entrega.dataEntrega)
+            .toISOString()
+            .split("T")[0];
+
+          setForm({
+            endereco: entrega.endereco,
+            dataEntrega: formattedDate,
+            status: entrega.status,
+            motorista: entrega.motorista,
+            veiculo: entrega.veiculo,
+          });
+        } catch (error) {
+          console.error("Erro ao buscar entrega:", error);
+        }
       }
       fetchEntrega();
     }
