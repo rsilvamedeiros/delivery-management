@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const TabelaFipeSchema = new mongoose.Schema({
+const TabelafipeSchema = new mongoose.Schema({
   marca: {
     type: String,
     required: [true, "Marca do veículo é obrigatória"],
@@ -19,5 +19,5 @@ const TabelaFipeSchema = new mongoose.Schema({
   },
 });
 
-export default mongoose.models.TabelaFipe ||
-  mongoose.model("TabelaFipe", TabelaFipeSchema);
+export default mongoose.models.Tabelafipe ||
+  mongoose.model("Tabelafipe", TabelafipeSchema);
