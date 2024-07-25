@@ -16,13 +16,13 @@ export default function Entregas() {
   return (
     <div>
       <h1>Lista de Entregas</h1>
-      <Link href="/entregas/nova">
+      <Link href="/entregas/nova" legacyBehavior>
         <a>Adicionar Nova Entrega</a>
       </Link>
       <ul>
         {entregas.map((entrega) => (
           <li key={entrega._id}>
-            <Link href={`/entregas/${entrega._id}`}>
+            <Link href={`/entregas/${entrega._id}`} legacyBehavior>
               <a>
                 {entrega.endereco} - {entrega.status}
               </a>

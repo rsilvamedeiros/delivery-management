@@ -16,13 +16,13 @@ export default function Vendas() {
   return (
     <div>
       <h1>Lista de Vendas</h1>
-      <Link href="/vendas/nova">
+      <Link href="/vendas/nova" legacyBehavior>
         <a>Adicionar Nova Venda</a>
       </Link>
       <ul>
         {vendas.map((venda) => (
           <li key={venda._id}>
-            <Link href={`/vendas/${venda._id}`}>
+            <Link href={`/vendas/${venda._id}`} legacyBehavior>
               <a>
                 {venda.produto} - {venda.quantidade} unidades
               </a>
