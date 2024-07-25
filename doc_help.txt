@@ -1,0 +1,26 @@
+// Conectar ao MongoDB
+
+//comando padrão
+mongosh mongodb://username:password@localhost:27017/admin
+
+//comando já com as credenciais
+mongosh mongodb://admin:senha_secreta@localhost:27017/admin
+
+// Selecionar o banco de dados (será criado se não existir)
+use deliveryManagement
+
+// Criar uma nova coleção
+db.createCollection("testCollection")
+
+// Inserir um documento na coleção
+db.testCollection.insertOne({ name: "Sample Document", createdAt: new Date() })
+
+// Listar coleções no banco de dados
+show collections
+
+// Consultar documentos na coleção
+db.testCollection.find().pretty()
+
+// ######### autenticacao do MongoDB #########
+#admin
+#senha_secreta
