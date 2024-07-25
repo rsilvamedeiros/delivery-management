@@ -24,3 +24,17 @@ db.testCollection.find().pretty()
 // ######### autenticacao do MongoDB #########
 #admin
 #senha_secreta
+
+use admin
+db.createUser({
+  user: "superadmin",
+  pwd: "teste123",
+  roles: [
+    { role: "root", db: "admin" }
+  ]
+})
+
+"C:\Program Files\MongoDB\Shell\bin\mongosh.exe" --username superadmin --password teste123 --authenticationDatabase admin
+
+MONGO_URI=mongodb://superadmin:teste123@localhost:27017/deliveryManagement?authSource=admin
+

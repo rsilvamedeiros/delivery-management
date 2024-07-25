@@ -1,9 +1,14 @@
+import dotenv from "dotenv";
+dotenv.config(); // Certifique-se de que isso está no início do arquivo
+
 import mongoose from "mongoose";
 
 const MONGO_URI = process.env.MONGO_URI;
 
+console.log("MONGO_URI in db.js:", MONGO_URI); // Adicione este log para depuração
+
 if (!MONGO_URI) {
-  throw new Error("Please add your Mongo URI to .env.local");
+  throw new Error("Please add your Mongo URI to .env");
 }
 
 let cached = global.mongoose;

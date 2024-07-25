@@ -1,7 +1,8 @@
 {
-  "name": "transportadora-web",
+  "name": "delivery-management",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -10,6 +11,7 @@
   },
   "dependencies": {
     "axios": "^1.7.2",
+    "dotenv": "^16.4.5",
     "mongoose": "^8.5.1",
     "next": "14.2.5",
     "react": "^18",

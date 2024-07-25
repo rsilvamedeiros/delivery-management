@@ -1,0 +1,17 @@
+MONGO_URI=mongodb://superadmin:teste123@localhost:27017/deliveryManagement?authSource=admin
+
+
+#MONGO_URI=mongodb://admin:senha_secreta@localhost:27017/deliveryManagement
+
+# MONGO_URI=mongodb://admin:senha_secreta@localhost:27017/deliveryManagement
+
+#mongodb://<username>:<password>@localhost:27017/deliveryManagement
+
+#autenticacao do MongoDB
+#admin
+#senha_secreta
+
+#mongosh mongodb://admin:senha_secreta@localhost:27017/admin
+
+#mongosh mongodb://superadmin:teste123@localhost:27017/admin
+
