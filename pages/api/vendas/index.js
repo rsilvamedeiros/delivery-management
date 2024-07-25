@@ -19,13 +19,13 @@ export default async function handler(req, res) {
 
       case "POST":
         console.log("Recebendo dados para criar uma nova venda...");
+        console.log("Dados recebidos:", req.body); // Log para depuração
         const venda = await Venda.create(req.body);
         console.log("Nova venda criada com sucesso:", venda);
         res.status(201).json({ success: true, data: venda });
         break;
 
       default:
-        console.log(`Método ${method} não suportado.`);
         res
           .status(400)
           .json({ success: false, message: "Método não suportado" });

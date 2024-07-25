@@ -8,7 +8,7 @@ export default function Venda() {
     quantidade: "",
     valor: "",
     dataVenda: "",
-    cliente: "",
+    cliente: "", // Inclua o campo cliente
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -32,7 +32,7 @@ export default function Venda() {
             quantidade: venda.quantidade,
             valor: venda.valor,
             dataVenda: formattedDate,
-            cliente: venda.cliente,
+            cliente: venda.cliente, // Inclua o campo cliente
           });
         } catch (err) {
           setError(err.response?.data?.message || "Erro ao carregar a venda");
@@ -55,6 +55,7 @@ export default function Venda() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      console.log("Dados enviados para atualização:", form); // Log para depuração
       await axios.put(`/api/vendas/${id}`, form);
       router.push("/vendas");
     } catch (error) {

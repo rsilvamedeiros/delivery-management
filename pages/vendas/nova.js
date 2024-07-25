@@ -8,7 +8,7 @@ export default function NovaVenda() {
     quantidade: "",
     valor: "",
     dataVenda: "",
-    cliente: "",
+    cliente: "", // Inclua o campo cliente
   });
   const [error, setError] = useState(null);
   const router = useRouter();
@@ -24,6 +24,7 @@ export default function NovaVenda() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      console.log("Dados enviados para criação:", form); // Log para depuração
       await axios.post("/api/vendas", form);
       router.push("/vendas");
     } catch (error) {
@@ -34,7 +35,7 @@ export default function NovaVenda() {
 
   return (
     <div>
-      <h1>Nova Venda</h1>
+      <h1>Adicionar Nova Venda</h1>
       <form onSubmit={handleSubmit}>
         <input
           type="text"

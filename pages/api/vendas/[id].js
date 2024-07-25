@@ -1,4 +1,3 @@
-// pages/api/vendas/[id].js
 import connectToDatabase from "../../../utils/db";
 import Venda from "../../../models/Venda";
 
@@ -23,6 +22,7 @@ export default async function handler(req, res) {
 
       case "PUT":
         console.log(`Atualizando venda com ID ${id}...`);
+        console.log("Dados recebidos para atualização:", req.body); // Log para depuração
         const updatedVenda = await Venda.findByIdAndUpdate(id, req.body, {
           new: true,
         });
