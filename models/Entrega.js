@@ -1,4 +1,3 @@
-// models/Entrega.js
 import mongoose from "mongoose";
 
 const EntregaSchema = new mongoose.Schema({
