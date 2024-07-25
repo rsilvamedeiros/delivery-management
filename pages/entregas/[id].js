@@ -38,7 +38,7 @@ export default function Entrega() {
       await axios.put(`/api/entregas/${id}`, form);
       router.push("/entregas");
     } catch (error) {
-      console.error(error);
+      console.error("Erro ao atualizar entrega:", error);
     }
   };
 

@@ -27,7 +27,7 @@ export default function NovaEntrega() {
       await axios.post("/api/entregas", form);
       router.push("/entregas");
     } catch (error) {
-      console.error(error);
+      console.error("Erro ao adicionar entrega:", error);
     }
   };
 
