@@ -9,13 +9,18 @@ export default async function handler(req, res) {
 
     switch (method) {
       case "GET":
-        const tabelaFipe = await TabelaFipe.find({});
-        res.status(200).json({ success: true, data: tabelaFipe });
+        const tabelasFipe = await TabelaFipe.find();
+        res.status(200).json({ success: true, data: tabelasFipe });
         break;
 
       case "POST":
-        const novoRegistro = await TabelaFipe.create(req.body);
-        res.status(201).json({ success: true, data: novoRegistro });
+        const { faixaMinima, faixaMaxima, nome } = req.body;
+        const novaTabelaFipe = await TabelaFipe.create({
+          faixaMinima,
+          faixaMaxima,
+          nome,
+        });
+        res.status(201).json({ success: true, data: novaTabelaFipe });
         break;
 
       default:

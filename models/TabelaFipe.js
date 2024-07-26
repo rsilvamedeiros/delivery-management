@@ -1,23 +1,19 @@
 import mongoose from "mongoose";
 
-const TabelafipeSchema = new mongoose.Schema({
-  marca: {
-    type: String,
-    required: [true, "Marca do veículo é obrigatória"],
-  },
-  modelo: {
-    type: String,
-    required: [true, "Modelo do veículo é obrigatório"],
-  },
-  ano: {
+const TabelaFipeSchema = new mongoose.Schema({
+  faixaMinima: {
     type: Number,
-    required: [true, "Ano do veículo é obrigatório"],
+    required: [true, "Faixa mínima é obrigatória"],
   },
-  valor: {
+  faixaMaxima: {
     type: Number,
-    required: [true, "Valor do veículo é obrigatório"],
+    required: [true, "Faixa máxima é obrigatória"],
+  },
+  nome: {
+    type: String,
+    required: [true, "Nome é obrigatório"],
   },
 });
 
-export default mongoose.models.Tabelafipe ||
-  mongoose.model("Tabelafipe", TabelafipeSchema);
+export default mongoose.models.TabelaFipe ||
+  mongoose.model("TabelaFipe", TabelaFipeSchema);

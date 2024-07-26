@@ -1,30 +1,35 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import Link from "next/link";
 
-const TabelaFipePage = () => {
-  const [tabelaFipe, setTabelaFipe] = useState([]);
+export default function TabelasFipe() {
+  const [tabelasFipe, setTabelasFipe] = useState([]);
 
   useEffect(() => {
-    const fetchTabelaFipe = async () => {
-      const response = await axios.get("/api/tabelafipe");
-      setTabelaFipe(response.data.data);
-    };
-    fetchTabelaFipe();
+    async function fetchTabelasFipe() {
+      try {
+        const response = await axios.get("/api/tabelasFipe");
+        setTabelasFipe(response.data.data);
+      } catch (error) {
+        console.error("Erro ao buscar tabelas FIPE:", error.message);
+      }
+    }
+    fetchTabelasFipe();
   }, []);
 
   return (
     <div>
-      <h1>Tabela FIPE</h1>
+      <h1>Lista de Tabelas FIPE</h1>
+      <Link href="/tabelasFipe/nova" legacyBehavior>
+        <a>Adicionar Nova Tabela FIPE</a>
+      </Link>
       <ul>
-        {tabelaFipe.map((registro) => (
-          <li key={registro._id}>
-            {registro.marca} {registro.modelo} ({registro.ano}) - R${" "}
-            {registro.valor}
+        {tabelasFipe.map((tabela) => (
+          <li key={tabela._id}>
+            {tabela.nome} (R${tabela.faixaMinima} - R${tabela.faixaMaxima})
           </li>
         ))}
       </ul>
     </div>
   );
-};
-
-export default TabelaFipePage;
+}
