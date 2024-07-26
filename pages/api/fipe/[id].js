@@ -1,5 +1,5 @@
 import connectToDatabase from "../../../utils/db";
-import TabelaFipe from "../../../models/TabelaFipe";
+import Fipe from "../../../models/Fipe";
 
 export default async function handler(req, res) {
   const { method } = req;
@@ -10,7 +10,7 @@ export default async function handler(req, res) {
 
     switch (method) {
       case "GET":
-        const tabelaFipe = await TabelaFipe.findById(id);
+        const tabelaFipe = await Fipe.findById(id);
         if (!tabelaFipe) {
           return res
             .status(404)
@@ -20,11 +20,10 @@ export default async function handler(req, res) {
         break;
 
       case "PUT":
-        const updatedTabelaFipe = await TabelaFipe.findByIdAndUpdate(
-          id,
-          req.body,
-          { new: true, runValidators: true }
-        );
+        const updatedTabelaFipe = await Fipe.findByIdAndUpdate(id, req.body, {
+          new: true,
+          runValidators: true,
+        });
         if (!updatedTabelaFipe) {
           return res
             .status(404)
@@ -34,7 +33,7 @@ export default async function handler(req, res) {
         break;
 
       case "DELETE":
-        const deletedTabelaFipe = await TabelaFipe.findByIdAndDelete(id);
+        const deletedTabelaFipe = await Fipe.findByIdAndDelete(id);
         if (!deletedTabelaFipe) {
           return res
             .status(404)

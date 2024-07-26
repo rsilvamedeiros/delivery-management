@@ -2,29 +2,29 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import Link from "next/link";
 
-export default function TabelasFipe() {
-  const [tabelasFipe, setTabelasFipe] = useState([]);
+export default function Fipe() {
+  const [fipe, setFipe] = useState([]);
 
   useEffect(() => {
-    async function fetchTabelasFipe() {
+    async function fetchFipe() {
       try {
-        const response = await axios.get("/api/tabelasFipe");
-        setTabelasFipe(response.data.data);
+        const response = await axios.get("/api/fipe");
+        setFipe(response.data.data);
       } catch (error) {
         console.error("Erro ao buscar tabelas FIPE:", error.message);
       }
     }
-    fetchTabelasFipe();
+    fetchFipe();
   }, []);
 
   return (
     <div>
       <h1>Lista de Tabelas FIPE</h1>
-      <Link href="/tabelasFipe/nova" legacyBehavior>
+      <Link href="/fipe/nova" legacyBehavior>
         <a>Adicionar Nova Tabela FIPE</a>
       </Link>
       <ul>
-        {tabelasFipe.map((tabela) => (
+        {fipe.map((tabela) => (
           <li key={tabela._id}>
             {tabela.nome} (R${tabela.faixaMinima} - R${tabela.faixaMaxima})
           </li>

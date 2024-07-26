@@ -1,5 +1,5 @@
 import connectToDatabase from "../../../utils/db";
-import TabelaFipe from "../../../models/TabelaFipe";
+import Fipe from "../../../models/Fipe";
 
 export default async function handler(req, res) {
   const { method } = req;
@@ -9,13 +9,13 @@ export default async function handler(req, res) {
 
     switch (method) {
       case "GET":
-        const tabelasFipe = await TabelaFipe.find();
+        const tabelasFipe = await Fipe.find();
         res.status(200).json({ success: true, data: tabelasFipe });
         break;
 
       case "POST":
         const { faixaMinima, faixaMaxima, nome } = req.body;
-        const novaTabelaFipe = await TabelaFipe.create({
+        const novaTabelaFipe = await Fipe.create({
           faixaMinima,
           faixaMaxima,
           nome,

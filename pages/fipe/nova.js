@@ -2,7 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
 
-export default function NovaTabelaFipe() {
+export default function NovaFipe() {
   const [faixaMinima, setFaixaMinima] = useState("");
   const [faixaMaxima, setFaixaMaxima] = useState("");
   const [nome, setNome] = useState("");
@@ -18,8 +18,8 @@ export default function NovaTabelaFipe() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("/api/tabelasFipe", { faixaMinima, faixaMaxima, nome });
-      router.push("/tabelasFipe");
+      await axios.post("/api/fipe", { faixaMinima, faixaMaxima, nome });
+      router.push("/fipe");
     } catch (error) {
       console.error("Erro ao adicionar tabela FIPE:", error);
     }

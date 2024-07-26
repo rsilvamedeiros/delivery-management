@@ -21,7 +21,7 @@ const VeiculoSchema = new mongoose.Schema({
   },
   valorFIPE: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "TabelaFipe",
+    ref: "Fipe",
   },
 });
 

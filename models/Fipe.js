@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const TabelaFipeSchema = new mongoose.Schema({
+const FipeSchema = new mongoose.Schema({
   faixaMinima: {
     type: Number,
     required: [true, "Faixa mínima é obrigatória"],
@@ -15,5 +15,4 @@ const TabelaFipeSchema = new mongoose.Schema({
   },
 });
 
-export default mongoose.models.TabelaFipe ||
-  mongoose.model("TabelaFipe", TabelaFipeSchema);
+export default mongoose.models.Fipe || mongoose.model("Fipe", FipeSchema);

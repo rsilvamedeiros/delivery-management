@@ -9,7 +9,7 @@ export default function NovoVeiculo() {
   const [ano, setAno] = useState("");
   const [valorFIPE, setValorFIPE] = useState("");
   const [marcas, setMarcas] = useState([]);
-  const [tabelasFipe, setTabelasFipe] = useState([]);
+  const [fipe, setFipe] = useState([]);
   const router = useRouter();
 
   useEffect(() => {
@@ -18,8 +18,8 @@ export default function NovoVeiculo() {
         const marcasResponse = await axios.get("/api/marcas");
         setMarcas(marcasResponse.data.data);
 
-        const tabelasFipeResponse = await axios.get("/api/tabelasFipe");
-        setTabelasFipe(tabelasFipeResponse.data.data);
+        const fipeResponse = await axios.get("/api/fipe");
+        setFipe(fipeResponse.data.data);
       } catch (error) {
         console.error("Erro ao buscar dados:", error.message);
       }
@@ -87,7 +87,7 @@ export default function NovoVeiculo() {
         />
         <select name="valorFIPE" value={valorFIPE} onChange={handleChange}>
           <option value="">Selecione a Tabela FIPE</option>
-          {tabelasFipe.map((tabela) => (
+          {fipe.map((tabela) => (
             <option key={tabela._id} value={tabela._id}>
               {tabela.nome} (R${tabela.faixaMinima} - R${tabela.faixaMaxima})
             </option>
