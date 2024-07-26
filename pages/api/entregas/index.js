@@ -1,8 +1,5 @@
-// pages/api/entregas/index.js
 import connectToDatabase from "../../../utils/db";
 import Entrega from "../../../models/Entrega";
-import Motorista from "../../../models/Motorista";
-import Veiculo from "../../../models/Veiculo";
 
 export default async function handler(req, res) {
   const { method } = req;
@@ -12,41 +9,19 @@ export default async function handler(req, res) {
 
     switch (method) {
       case "GET":
-        const entregas = await Entrega.find({})
-          .populate("motorista")
-          .populate("veiculo");
+        const entregas = await Entrega.find().populate("motorista veiculo");
         res.status(200).json({ success: true, data: entregas });
         break;
-
       case "POST":
-        const { motorista, veiculo, ...entregaData } = req.body;
-
-        // Buscar Motorista pelo nome
-        const motoristaDoc = await Motorista.findOne({ nome: motorista });
-        if (!motoristaDoc) {
-          return res
-            .status(400)
-            .json({ success: false, message: "Motorista não encontrado" });
-        }
-
-        // Buscar Veiculo pelo modelo
-        const veiculoDoc = await Veiculo.findOne({ modelo: veiculo });
-        if (!veiculoDoc) {
-          return res
-            .status(400)
-            .json({ success: false, message: "Veículo não encontrado" });
-        }
-
-        // Criar nova entrega com ObjectId
+        const { dataEntrega, status, motorista, veiculo } = req.body;
         const novaEntrega = await Entrega.create({
-          ...entregaData,
-          motorista: motoristaDoc._id,
-          veiculo: veiculoDoc._id,
+          dataEntrega,
+          status,
+          motorista,
+          veiculo,
         });
-
         res.status(201).json({ success: true, data: novaEntrega });
         break;
-
       default:
         res
           .status(400)
