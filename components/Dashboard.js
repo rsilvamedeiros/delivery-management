@@ -75,7 +75,7 @@ export default function Dashboard() {
               variant="contained"
               color="primary"
               component={Link}
-              href="/tabelafipe"
+              href="/fipe"
               fullWidth
               style={{ marginTop: 10 }}
             >

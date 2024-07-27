@@ -5,6 +5,7 @@ Este projeto é um sistema web de gerenciamento de entregas e vendas, desenvolvi
 ## Tecnologias Utilizadas
 
 - **Frontend:**
+
   - [Next.js](https://nextjs.org/)
   - [Material-UI](https://mui.com/)
 
@@ -58,12 +59,11 @@ Este projeto é um sistema web de gerenciamento de entregas e vendas, desenvolvi
 │ ├── vendas
 │ │ ├── index.js
 │ │ └── nova.js
-│ ├── _app.js
+│ ├── \_app.js
 │ └── index.js
 ├── utils
 │ └── db.js
 └── .env.local
-
 
 ## Instalação
 
@@ -109,11 +109,11 @@ PUT /api/veiculos/[id]
 DELETE /api/veiculos/[id]
 Tabelas FIPE:
 
-GET /api/tabelafipe
-POST /api/tabelafipe
-GET /api/tabelafipe/[id]
-PUT /api/tabelafipe/[id]
-DELETE /api/tabelafipe/[id]
+GET /api/fipe
+POST /api/fipe
+GET /api/fipe/[id]
+PUT /api/fipe/[id]
+DELETE /api/fipe/[id]
 Vendas:
 
 GET /api/vendas
@@ -131,3 +131,4 @@ Licença
 Este projeto está licenciado sob a Licença MIT. Veja o arquivo LICENSE para mais detalhes.
 
 
+```
