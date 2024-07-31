@@ -1,118 +1,121 @@
+// pages/entregas/novo.js
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
-import {
-  Container,
-  Typography,
-  TextField,
-  Button,
-  MenuItem,
-  Select,
-  FormControl,
-  InputLabel,
-  Box,
-} from "@mui/material";
 
 export default function NovaEntrega() {
-  const [dataEntrega, setDataEntrega] = useState("");
-  const [status, setStatus] = useState("");
-  const [motorista, setMotorista] = useState("");
-  const [veiculo, setVeiculo] = useState("");
+  const [form, setForm] = useState({
+    endereco: "",
+    dataEntrega: "",
+    status: "",
+    motorista: "",
+    veiculo: "",
+  });
   const [motoristas, setMotoristas] = useState([]);
   const [veiculos, setVeiculos] = useState([]);
+
   const router = useRouter();
 
   useEffect(() => {
-    async function fetchMotoristasVeiculos() {
+    async function fetchMotoristas() {
       try {
-        const [motoristasResponse, veiculosResponse] = await Promise.all([
-          axios.get("/api/motoristas"),
-          axios.get("/api/veiculos"),
-        ]);
-        setMotoristas(motoristasResponse.data.data);
-        setVeiculos(veiculosResponse.data.data);
+        const response = await axios.get("/api/motoristas");
+        setMotoristas(response.data.data);
       } catch (error) {
-        console.error("Erro ao buscar motoristas e veículos:", error.message);
+        console.error("Erro ao buscar motoristas:", error);
       }
     }
-    fetchMotoristasVeiculos();
+
+    async function fetchVeiculos() {
+      try {
+        const response = await axios.get("/api/veiculos");
+        setVeiculos(response.data.data);
+      } catch (error) {
+        console.error("Erro ao buscar veículos:", error);
+      }
+    }
+
+    fetchMotoristas();
+    fetchVeiculos();
   }, []);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setForm((prevForm) => ({
+      ...prevForm,
+      [name]: value,
+    }));
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("/api/entregas", {
-        dataEntrega,
-        status,
-        motorista,
-        veiculo,
-      });
+      await axios.post("/api/entregas", form);
       router.push("/entregas");
     } catch (error) {
-      console.error("Erro ao adicionar entrega:", error);
+      console.error("Erro ao criar nova entrega:", error);
     }
   };
 
   return (
-    <Container>
-      <Typography variant="h4" gutterBottom>
-        Nova Entrega
-      </Typography>
-      <Box
-        component="form"
-        onSubmit={handleSubmit}
-        sx={{ display: "flex", flexDirection: "column", gap: 2 }}
-      >
-        <TextField
-          type="date"
-          label="Data da Entrega"
-          value={dataEntrega}
-          onChange={(e) => setDataEntrega(e.target.value)}
-          InputLabelProps={{
-            shrink: true,
-          }}
-          required
-        />
-        <TextField
-          label="Status"
-          value={status}
-          onChange={(e) => setStatus(e.target.value)}
-          required
-        />
-        <FormControl>
-          <InputLabel id="motorista-label">Motorista</InputLabel>
-          <Select
-            labelId="motorista-label"
-            value={motorista}
-            onChange={(e) => setMotorista(e.target.value)}
-            required
+    <div>
+      <h1>Nova Entrega</h1>
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label>Endereço</label>
+          <input
+            type="text"
+            name="endereco"
+            value={form.endereco}
+            onChange={handleChange}
+          />
+        </div>
+        <div>
+          <label>Data de Entrega</label>
+          <input
+            type="date"
+            name="dataEntrega"
+            value={form.dataEntrega}
+            onChange={handleChange}
+          />
+        </div>
+        <div>
+          <label>Status</label>
+          <input
+            type="text"
+            name="status"
+            value={form.status}
+            onChange={handleChange}
+          />
+        </div>
+        <div>
+          <label>Motorista</label>
+          <select
+            name="motorista"
+            value={form.motorista}
+            onChange={handleChange}
           >
+            <option value="">Selecione um motorista</option>
             {motoristas.map((motorista) => (
-              <MenuItem key={motorista._id} value={motorista._id}>
+              <option key={motorista._id} value={motorista._id}>
                 {motorista.nome}
-              </MenuItem>
+              </option>
             ))}
-          </Select>
-        </FormControl>
-        <FormControl>
-          <InputLabel id="veiculo-label">Veículo</InputLabel>
-          <Select
-            labelId="veiculo-label"
-            value={veiculo}
-            onChange={(e) => setVeiculo(e.target.value)}
-            required
-          >
+          </select>
+        </div>
+        <div>
+          <label>Veículo</label>
+          <select name="veiculo" value={form.veiculo} onChange={handleChange}>
+            <option value="">Selecione um veículo</option>
             {veiculos.map((veiculo) => (
-              <MenuItem key={veiculo._id} value={veiculo._id}>
+              <option key={veiculo._id} value={veiculo._id}>
                 {veiculo.modelo}
-              </MenuItem>
+              </option>
             ))}
-          </Select>
-        </FormControl>
-        <Button type="submit" variant="contained" color="primary">
-          Adicionar Entrega
-        </Button>
-      </Box>
-    </Container>
+          </select>
+        </div>
+        <button type="submit">Salvar</button>
+      </form>
+    </div>
   );
 }
